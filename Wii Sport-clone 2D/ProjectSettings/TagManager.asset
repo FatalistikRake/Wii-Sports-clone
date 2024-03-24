@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TopPlayingField
   - BottomPlayingField
+  - Wall
   layers:
   - Default
   - TransparentFX

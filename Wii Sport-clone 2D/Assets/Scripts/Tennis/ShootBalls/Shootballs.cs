@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Shootballs : MonoBehaviour
@@ -25,7 +26,7 @@ public class Shootballs : MonoBehaviour
     public float ballTimeCounter = 1;
 
     // Controllare se la palla è stata sparata
-    public bool ballShooted = false;
+    private bool ballShooted = false;
 
     // Posizione iniziale dalla palla in cui verrà sparata
     public Transform shootingPoint;
@@ -62,22 +63,21 @@ public class Shootballs : MonoBehaviour
         ballShooted = true;
 
 
-        Vector3 randomPosition = GetRadomPosition(opponentPlayingField.GetComponent<BoxCollider2D>().bounds);
+        Vector2 randomPosition = GetRadomPosition(opponentPlayingField.GetComponent<BoxCollider2D>().bounds);
         
         // Debug.Log($"Random X: {randomPosition.x}, Random Y: {randomPosition.y}");
 
-        Vector3 direction = (randomPosition - shootingPoint.position).normalized; // Calcola la direzione del tiro
-
+        Vector2 direction = (randomPosition - shootingPoint.position.ConvertTo<Vector2>()).normalized; // Calcola la direzione del tiro
 
         Instantiate(targetPrefab, randomPosition, Quaternion.identity); // crea un indicatore target nel punto randomico
 
         GameObject newBall = Instantiate(ballPrefab, shootingPoint.position, Quaternion.identity); // Crea la palla
 
-
         // Applica la forza ( la spara verso il punto indicato )
         newBall.GetComponent<Rigidbody2D>().AddForce(direction * ballSpeed);
 
-        newBall.GetComponent<BallShadow>().InitShadowEffect(shootingPoint.position, randomPosition); // Inizia l'effetto dell'ombra della palla
+        // Inizia l'effetto dell'ombra della palla con la velocità costante già impostata
+        newBall.GetComponent<BallShadow>().InitShadowEffect(shootingPoint.position, randomPosition, direction);
 
         yield return new WaitForSeconds(ballTimeCounter);
 
@@ -87,13 +87,8 @@ public class Shootballs : MonoBehaviour
     /// <summary>
     /// Prende un punto randomico nel campo dell'avversario
     /// </summary>
-    private Vector3 GetRadomPosition(Bounds bounds)
+    private Vector2 GetRadomPosition(Bounds bounds)
     {
-        float minX = bounds.min.x;
-        float maxX = bounds.max.x;
-        float minY = bounds.min.y;
-        float maxY = bounds.max.y;
-
-        return new(Random.Range(minX, maxX), Random.Range(minY, maxY), 0);
+        return new(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y));
     }
 }
