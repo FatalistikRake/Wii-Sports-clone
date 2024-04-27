@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public bool canMove = true;
 
-    // Metodo chiamato all'avvio
     void Start()
     {
         // Ottenimento del componente Rigidbody2D
@@ -46,28 +45,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Metodo chiamato ad ogni frame
     private void Update()
     {
         // Controlla se il giocatore può muoversi
         if (!canMove)
             return;
 
-        // Input orizzontale e verticale
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
-
         // Creazione del vettore di movimento normalizzato
         PlayerInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
 
-
-        // Aggiornamento dei parametri dell'Animator
-        animator.SetFloat("Horizontal", horizontalInput);
-        animator.SetFloat("Vertical", verticalInput);
-        animator.SetFloat("Speed", PlayerInput.magnitude);
-
-
-        // Se il giocatore si sta muovendo
+        // Se il tempo ancora non e fermo e il giocatore si sta muovendo
         if (PlayerInput != Vector2.zero)
         {
             lastMovement = PlayerInput;
@@ -81,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Se il giocatore non si sta muovendo, arresta il Rigidbody2D
             rb.velocity = Vector2.zero;
 
             // Aggiorna i parametri dell'Animator con l'ultimo movimento
@@ -89,16 +75,5 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("Vertical", lastMovement.y);
             animator.SetFloat("Speed", 0);
         }
-    }
-
-    // Metodo per far guardare il giocatore verso il basso
-    public void LookDownward()
-    {
-        // Arresta il movimento e aggiorna i parametri dell'Animator
-        rb.velocity = Vector2.zero;
-
-        animator.SetFloat("Vertical", -1);
-        animator.SetFloat("Horizontal", 0);
-        animator.SetFloat("Speed", 0);
     }
 }

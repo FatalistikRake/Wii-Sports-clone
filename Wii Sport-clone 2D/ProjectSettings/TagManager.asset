@@ -7,11 +7,14 @@ TagManager:
   - TopPlayingField
   - BottomPlayingField
   - Wall
+  - Ball
+  - Rete
+  - NPC
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player / NPC
   - Water
   - UI
   - Ball
