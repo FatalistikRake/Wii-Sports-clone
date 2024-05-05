@@ -19,9 +19,9 @@ public class ForcefullThower : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.Space))
         {
-            fill.fillAmount += .03f;
+            fill.fillAmount += .04f;
             fill.color = gradient.Evaluate(fill.fillAmount);
-            ForceShot = fill.fillAmount * 17;
+            ForceShot = fill.fillAmount * 15;
             // Torare il numero          ---- giusto ( equilibrato )
             // Debug.Log($"force shot: {ForceShot}");
         }

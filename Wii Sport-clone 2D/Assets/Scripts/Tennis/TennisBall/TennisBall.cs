@@ -7,7 +7,7 @@ public class TennisBall : MonoBehaviour
     public BallShadow ballShadow { get; private set; }
     public BallBounce ballBounce { get; private set; }
 
-    public bool ballIsMoving { get; private set; }
+    public bool ballIsInAir { get; private set; }
 
     public Vector2 startPosition { get; private set; }
     public Vector2 endPosition { get; private set; }
@@ -35,7 +35,7 @@ public class TennisBall : MonoBehaviour
 
         forceShoot = ForcefullThower.ForceShot;
 
-        ballIsMoving = ballShadow.ballIsInAir;
+        ballIsInAir = ballShadow.ballIsInAir;
     }
 
     void Update()
@@ -52,8 +52,8 @@ public class TennisBall : MonoBehaviour
         if (forceShoot != ForcefullThower.ForceShot)
             forceShoot = ForcefullThower.ForceShot;
 
-        if (ballIsMoving != ballShadow.ballIsInAir)
-            ballIsMoving = ballShadow.ballIsInAir;
+        if (ballIsInAir != ballShadow.ballIsInAir)
+            ballIsInAir = ballShadow.ballIsInAir;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

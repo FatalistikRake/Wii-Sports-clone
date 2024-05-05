@@ -16,6 +16,7 @@ public class PlayerMovementTennis : MonoBehaviour
     // In quale campo si trova lo spara palle
     private GameObject opponentPlayingField;
 
+    public GameObject currentPlayingField { get; private set; }
 
 
     [HideInInspector]
@@ -84,17 +85,29 @@ public class PlayerMovementTennis : MonoBehaviour
         }
     }
 
+    // per eseguire una sola volta il controllo del corrente campo
+    private bool opponentPlayingFieldHasTriggered = false;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision != null)
         {
-            if (collision.CompareTag("TopPlayingField") && opponentPlayingField != FindFieldsManager_Tennis.bottomPlayingField)
+            if (!opponentPlayingFieldHasTriggered)
             {
-                opponentPlayingField = FindFieldsManager_Tennis.bottomPlayingField;
-            }
-            else if (collision.CompareTag("BottomPlayingField") && opponentPlayingField != FindFieldsManager_Tennis.topPlayingField)
-            {
-                opponentPlayingField = FindFieldsManager_Tennis.topPlayingField;
+                if (collision.CompareTag("TopPlayingField"))
+                {
+                    opponentPlayingField = FindFieldsManager_Tennis.bottomPlayingField;
+                    currentPlayingField = FindFieldsManager_Tennis.topPlayingField;
+
+                    opponentPlayingFieldHasTriggered = true;
+                }
+                else if (collision.CompareTag("BottomPlayingField") && !opponentPlayingFieldHasTriggered)
+                {
+                    opponentPlayingField = FindFieldsManager_Tennis.topPlayingField;
+                    currentPlayingField = FindFieldsManager_Tennis.bottomPlayingField;
+
+                    opponentPlayingFieldHasTriggered = true;
+                }
             }
         }
     }

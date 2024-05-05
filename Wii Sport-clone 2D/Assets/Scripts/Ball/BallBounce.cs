@@ -65,10 +65,10 @@ public class BallBounce : MonoBehaviour
             RandomPoints.Add(endPosition + (direction * Random.Range(.4f, .8f)));
         }
 
-        foreach (Vector2 item in RandomPoints)
+        /*foreach (Vector2 item in RandomPoints)
         {
             Debug.Log($"RandomPoint: {item}");
-        }
+        }*/
 
         yield return null;
     }

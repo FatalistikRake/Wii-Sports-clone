@@ -136,7 +136,5 @@ public class BallShadow : MonoBehaviour
         ballIsInAir = false;
         shadow.transform.localPosition = Vector3.zero;
         gameObject.GetComponent<BallBounce>().RandomPoints.Clear();
-
-        print("Reset Shadow");
     }
 }

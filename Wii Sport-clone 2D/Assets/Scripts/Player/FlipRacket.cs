@@ -41,11 +41,5 @@ public class FlipRacket : MonoBehaviour
             if (Racket.transform.localScale.x < 0)
                 Racket.transform.localScale = new (Mathf.Abs(Racket.transform.localScale.x), Racket.transform.localScale.y);
         }
-        /*else if (x_directionRacket.x == 0)
-        {
-            Racket.transform.localPosition = RightHand;
-            if(Racket.transform.localScale.x > 0)
-                Racket.transform.localScale = new(-Racket.transform.localScale.x, Racket.transform.localScale.y);
-        }*/
     }
 }

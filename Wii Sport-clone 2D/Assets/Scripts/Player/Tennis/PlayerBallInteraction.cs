@@ -3,23 +3,18 @@ using UnityEngine;
 
 public class PlayerBallInteraction : MonoBehaviour
 {
-    /// <summary>
-    /// ci sarà una freccia che indicherà la direzione di dove andrà la palla ( più forte sarà il tiro, più sarà sproca la direzione sarà )
-    /// ( il punto "A" sarà il punto in cui verrà colpita la palla è il è il punto "B" sarà calcolato tramite la direzione è la potenza )
-    /// 
-    /// ci sarà anche un indicatore che indicherà la forza che metterà il player
-    /// </summary>
-    /// 
-    private bool isCurrentlyColliding;
-    private bool ballWasHit;
-
-    private GameObject ball;
-
+    
     public Transform shootingPoint;
 
     public static bool ballIsShooted { get; private set; }
 
+    private GameObject ball;
+    
+    private bool isCurrentlyColliding;
+    private bool ballWasHit;
+
     private Vector2 ballEndPosition;
+
 
     private void Start()
     {
@@ -58,6 +53,7 @@ public class PlayerBallInteraction : MonoBehaviour
                     // Calcolo della posizione finale della palla
                     ballEndPosition = (Vector2)shootingPoint.position + force * direction;
 
+                    // Applico la forza alla palla
                     ball.GetComponent<Rigidbody2D>().AddForce(force * direction.normalized);
 
                     // Si fa partire l'effetto dell'ombra
@@ -81,7 +77,7 @@ public class PlayerBallInteraction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ball"))
+        if (collision.CompareTag("Ball") && !ballWasHit)
         {
             ball = collision.gameObject;
 

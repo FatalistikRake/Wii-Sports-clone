@@ -95,40 +95,44 @@ public class NPCMovement_Tennis : MonoBehaviour
 
     void Update()
     {
-        if (ball != FindFirstObjectByType<TennisBall>().gameObject && FindFirstObjectByType<TennisBall>() != null)
+        if(ball != FindFirstObjectByType<TennisBall>().gameObject && FindFirstObjectByType<TennisBall>() != null)
         {
             ball = FindFirstObjectByType<TennisBall>();
         }
 
-        if (PlayerBallInteraction.ballIsShooted && !NPCBallInteraction_Tennis.ballIsShooted && ball.ballIsMoving)
+
+        /// da rivedere questo pezzo di codice
+        /// {
+
+        // Calcola il vettore direzione tra observer e target
+        Vector2 direction = (Vector2)(ball.transform.position - transform.position);
+
+        // Calcola il prodotto vettoriale bidimensionale tra il vettore direzione della tua vista e il vettore direzione del target
+        float crossProduct = direction.x * Vector2.up.y - direction.y * Vector2.up.x;
+
+        // Controlla il segno del componente x del prodotto vettoriale
+        float sign = Mathf.Sign(crossProduct);
+
+        /// }
+
+
+        if (PlayerBallInteraction.ballIsShooted && !NPCBallInteraction_Tennis.ballIsShooted && ball.ballIsInAir)
         {
             if (InsideOfTheField(ball.endPosition,
                     currentPlayingField.GetComponent<Collider2D>().bounds))
             {
-
-                // Calcola il vettore direzione tra observer e target
-                Vector2 direction = (Vector2)(ball.transform.position - transform.position);
-
-                // Calcola il prodotto vettoriale tra il vettore direzione della tua vista e il vettore direzione del target
-                float crossProduct = Vector3.Cross(Vector3.forward, direction).z;
-
-                // Controlla il segno del componente z del prodotto vettoriale
-                float sign = Mathf.Sign(crossProduct);
-
+                // destra
                 if (sign > 0)
                 {
                     endPosition = new(ball.endPosition.x - GetComponent<Renderer>().bounds.size.x / 2f - .0251f, ball.endPosition.y - .07f);
                 }
+                // sinistra
                 else if (sign < 0)
                 {
-                    endPosition = new(ball.endPosition.x + GetComponent<Renderer>().bounds.size.x / 2f + .0251f, ball.endPosition.y - .07f);
+                    endPosition = new(ball.endPosition.x + GetComponent<Renderer>().bounds.size.x + .0251f, ball.endPosition.y - .07f);
                 }
 
-
-
                 transform.position = Vector2.MoveTowards(transform.position, endPosition, moveSpeed * Time.deltaTime);
-
-
 
                 npcMovement = new(sign, transform.position.y);
 
@@ -138,7 +142,7 @@ public class NPCMovement_Tennis : MonoBehaviour
             }
             /*else
             {
-                if (!goToCenterTrigger)
+                if (Vector2.Distance((Vector2)transform.position, currentPlayingField.GetComponent<Collider2D>().bounds.center) > 0.01f)
                 {
                     NpcGoToCenter();
                 }
@@ -147,29 +151,20 @@ public class NPCMovement_Tennis : MonoBehaviour
 
     }
 
-    private bool goToCenterTrigger = false;
-    private Coroutine moveToCenterCoroutine;
-
+    
     private void NpcGoToCenter()
     {
-        goToCenterTrigger = true;
         Vector2 center = currentPlayingField.GetComponent<Collider2D>().bounds.center;
 
         if (ball.currentField != currentPlayingField)
         {
-            if (transform.position != (Vector3)center || ball.GetComponent<Rigidbody2D>().velocity == Vector2.zero)
+            if (transform.position != (Vector3)center)
             {
-                /*if (moveToCenterCoroutine != null)
-                {
-                    StopCoroutine(moveToCenterCoroutine);
-                }
-                moveToCenterCoroutine = */
                 StartCoroutine(MoveToCenter(center));
             }
             else
             {
                 NpcNotMoving();
-                goToCenterTrigger = false; // Assicurati di reimpostare la variabile qui se il personaggio è già nel centro
             }
         }
     }
@@ -181,7 +176,6 @@ public class NPCMovement_Tennis : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, center, moveSpeed * Time.deltaTime);
             yield return null;
         }
-        goToCenterTrigger = false; // Quando il movimento è completato, reimposta la variabile goToCenterTrigger
     }
 
 
@@ -207,21 +201,25 @@ public class NPCMovement_Tennis : MonoBehaviour
                 {
                     opponentPlayingField = FindFieldsManager_Tennis.bottomPlayingField;
                     currentPlayingField = FindFieldsManager_Tennis.topPlayingField;
+
                     opponentPlayingFieldHasTriggered = true;
                 }
                 else if (collision.CompareTag("BottomPlayingField") && !opponentPlayingFieldHasTriggered)
                 {
                     opponentPlayingField = FindFieldsManager_Tennis.topPlayingField;
                     currentPlayingField = FindFieldsManager_Tennis.bottomPlayingField;
+                    
                     opponentPlayingFieldHasTriggered = true;
 
                 }
             }
-
-            if (collision.CompareTag("Wall"))
-                transform.position = Vector3.zero; 
         }
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Wall"))
+            transform.position = Vector3.zero;
     }
 
     private bool InsideOfTheField(Vector2 endPosition, Bounds boundsField)
