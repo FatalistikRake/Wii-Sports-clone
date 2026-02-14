@@ -34,7 +34,7 @@ public class NPCBallInteraction_Tennis : MonoBehaviour
             {
                 ball = collision.gameObject;
 
-                ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                ball.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
 
                 ball.GetComponent<BallShadow>().ResetShadow();
 

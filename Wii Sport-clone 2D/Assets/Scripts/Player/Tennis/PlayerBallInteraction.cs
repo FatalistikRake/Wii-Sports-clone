@@ -42,7 +42,7 @@ public class PlayerBallInteraction : MonoBehaviour
                 {
                     ballIsShooted = true;
 
-                    ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    ball.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
 
                     // Qui resetta l'ombra e toglie anche il target
                     ball.GetComponent<BallShadow>().ResetShadow();
@@ -61,14 +61,14 @@ public class PlayerBallInteraction : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("La palla non è stata settata");
+                    Debug.Log("La palla non ï¿½ stata settata");
                 }
             }
         }
     }
 
-    // questa funzione serve solo a simulare un'animazione che poi questo verrà
-    // tolto è sara messo l'evento su unity alla fine dell'animazione
+    // questa funzione serve solo a simulare un'animazione che poi questo verrï¿½
+    // tolto ï¿½ sara messo l'evento su unity alla fine dell'animazione
     private IEnumerator TimeFakeAnimation()
     {
         yield return new WaitForSeconds(.7f);

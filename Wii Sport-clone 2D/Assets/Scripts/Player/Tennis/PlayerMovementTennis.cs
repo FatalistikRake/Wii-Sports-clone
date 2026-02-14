@@ -68,7 +68,7 @@ public class PlayerMovementTennis : MonoBehaviour
             lastMovement = PlayerInput;
 
             // Imposta la velocità del Rigidbody2D e aggiorna i parametri dell'Animator
-            rb.velocity = PlayerInput * moveSpeed;
+            rb.linearVelocity = PlayerInput * moveSpeed;
 
             animator.SetFloat("Horizontal", PlayerInput.x);
             animator.SetFloat("Vertical", PlayerInput.y);
@@ -77,7 +77,7 @@ public class PlayerMovementTennis : MonoBehaviour
         else
         {
             // Se il giocatore non si sta muovendo, arresta il Rigidbody2D
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
 
             animator.SetFloat("Horizontal", 0);
             animator.SetFloat("Vertical", opponentPlayingField == FindFieldsManager_Tennis.bottomPlayingField ? -1 : 1);

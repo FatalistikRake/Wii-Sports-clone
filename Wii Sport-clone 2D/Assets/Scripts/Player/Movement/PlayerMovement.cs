@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Velocità di movimento del giocatore
+    // Velocitï¿½ di movimento del giocatore
     public float moveSpeed = 5f;
 
     // Riferimento al componente Rigidbody2D del giocatore
@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     // Ultimo movimento effettuato dal giocatore
     private Vector2 lastMovement;
 
-    // Flag per controllare se il giocatore può muoversi
+    // Flag per controllare se il giocatore puï¿½ muoversi
     [HideInInspector]
     public bool canMove = true;
 
@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         // Ottenimento del componente Rigidbody2D
         rb = GetComponent<Rigidbody2D>();
 
-        // Verifica se il componente Rigidbody2D è stato ottenuto correttamente
+        // Verifica se il componente Rigidbody2D ï¿½ stato ottenuto correttamente
         if (!TryGetComponent(out rb))
         {
             Debug.LogWarning("Il componente Rigidbody2D non riesco a prenderlo");
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         // Ottenimento del componente Animator
         animator = GetComponent<Animator>();
 
-        // Verifica se il componente Animator è stato ottenuto correttamente
+        // Verifica se il componente Animator ï¿½ stato ottenuto correttamente
         if (!TryGetComponent(out animator))
         {
             Debug.LogWarning("Il componente Animator non riesco a prenderlo");
@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // Controlla se il giocatore può muoversi
+        // Controlla se il giocatore puï¿½ muoversi
         if (!canMove)
             return;
 
@@ -59,8 +59,8 @@ public class PlayerMovement : MonoBehaviour
         {
             lastMovement = PlayerInput;
 
-            // Imposta la velocità del Rigidbody2D e aggiorna i parametri dell'Animator
-            rb.velocity = PlayerInput * moveSpeed;
+            // Imposta la velocitï¿½ del Rigidbody2D e aggiorna i parametri dell'Animator
+            rb.linearVelocity = PlayerInput * moveSpeed;
 
             animator.SetFloat("Horizontal", PlayerInput.x);
             animator.SetFloat("Vertical", PlayerInput.y);
@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
 
             // Aggiorna i parametri dell'Animator con l'ultimo movimento
             animator.SetFloat("Horizontal", lastMovement.x);

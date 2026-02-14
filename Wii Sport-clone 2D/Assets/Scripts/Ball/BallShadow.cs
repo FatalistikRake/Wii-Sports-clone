@@ -8,7 +8,7 @@ public class BallShadow : MonoBehaviour
 {
     public GameObject shadow;
 
-    public bool ballIsInAir { get; private set; } = false;// Un flag per controllare se la palla è in aria
+    public bool ballIsInAir { get; private set; } = false;// Un flag per controllare se la palla ï¿½ in aria
 
     private Vector2 shadowDirection = new(.03f, -.1f); // La direzione dell'ombra
 
@@ -22,25 +22,25 @@ public class BallShadow : MonoBehaviour
 
     void Update()
     {
-        // Se la palla è in aria, muove l'ombra in base alla posizione della palla
+        // Se la palla ï¿½ in aria, muove l'ombra in base alla posizione della palla
         if (ballIsInAir)
         {
-            // controlla se la palla ha percorso meno della metà della distanza totale.
-            // Se è vero, l’ombra si muove in una direzione, altrimenti si muove nella direzione opposta.
+            // controlla se la palla ha percorso meno della metï¿½ della distanza totale.
+            // Se ï¿½ vero, lï¿½ombra si muove in una direzione, altrimenti si muove nella direzione opposta.
             if (Vector2.Distance(startPosition, (Vector2)transform.position) <= distance / 2)
-                // Se la palla ha percorso meno della metà della distanza, l’ombra si muove in una certa
-                // direzione a una velocità proporzionale al tempo trascorso dall’ultimo frame (Time.deltaTime).
+                // Se la palla ha percorso meno della metï¿½ della distanza, lï¿½ombra si muove in una certa
+                // direzione a una velocitï¿½ proporzionale al tempo trascorso dallï¿½ultimo frame (Time.deltaTime).
                 shadow.transform.position += shadowSpeedMovement * Time.deltaTime * (Vector3)shadowDirection;
             else
-                //  Se la palla ha percorso più della metà della distanza,l’ombra si muove in una certa
-                //  direzione a una velocità proporzionale al tempo trascorso dall’ultimo frame (Time.deltaTime).
+                //  Se la palla ha percorso piï¿½ della metï¿½ della distanza,lï¿½ombra si muove in una certa
+                //  direzione a una velocitï¿½ proporzionale al tempo trascorso dallï¿½ultimo frame (Time.deltaTime).
                 shadow.transform.position -= shadowSpeedMovement * Time.deltaTime * (Vector3)shadowDirection;
 
 
             /*if (Vector2.Distance(startPosition, (Vector2)transform.position) <= distance / 2)
-                Debug.Log($"e prima della metà   distanza percorsa palla: {Vector2.Distance((Vector2)transform, startPosition)}    distance metà: {distance / 2}    distanza totale: {distance}");
+                Debug.Log($"e prima della metï¿½   distanza percorsa palla: {Vector2.Distance((Vector2)transform, startPosition)}    distance metï¿½: {distance / 2}    distanza totale: {distance}");
             else
-                Debug.Log($"e dopo della metà    distanza percorsa palla: {Vector2.Distance((Vector2)transform.position, startPosition)}    distance metà: {distance / 2}    distanza totale: {distance}");*/
+                Debug.Log($"e dopo della metï¿½    distanza percorsa palla: {Vector2.Distance((Vector2)transform.position, startPosition)}    distance metï¿½: {distance / 2}    distanza totale: {distance}");*/
 
             // Se la palla ha raggiunto la posizione finale, resetta l'ombra precisamente sotto la palla e il flag a falso
             if (Vector2.Distance((Vector2)transform.position, endPosition) <= 0.1f)
@@ -64,28 +64,28 @@ public class BallShadow : MonoBehaviour
     {
         Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
 
-        // Riduci gradualmente la velocità fino a che non raggiunge lo zero
-        while (rb.velocity.magnitude > 0)
+        // Riduci gradualmente la velocitï¿½ fino a che non raggiunge lo zero
+        while (rb.linearVelocity.magnitude > 0)
         {
-            // Calcola la velocità di rallentamento in base alla velocità attuale
-            Vector2 slowdownVelocity = 0.1f * Time.deltaTime * rb.velocity.normalized;
+            // Calcola la velocitï¿½ di rallentamento in base alla velocitï¿½ attuale
+            Vector2 slowdownVelocity = 0.1f * Time.deltaTime * rb.linearVelocity.normalized;
 
-            // Assicurati che la velocità di rallentamento non superi la velocità attuale
-            slowdownVelocity = Vector2.ClampMagnitude(slowdownVelocity, rb.velocity.magnitude);
+            // Assicurati che la velocitï¿½ di rallentamento non superi la velocitï¿½ attuale
+            slowdownVelocity = Vector2.ClampMagnitude(slowdownVelocity, rb.linearVelocity.magnitude);
 
-            // Applica la velocità di rallentamento
-            rb.velocity -= slowdownVelocity;
+            // Applica la velocitï¿½ di rallentamento
+            rb.linearVelocity -= slowdownVelocity;
 
             // Aspetta il prossimo frame
             yield return null;
         }
 
-        // Assicurati che la velocità sia esattamente zero
-        rb.velocity = Vector2.zero;
+        // Assicurati che la velocitï¿½ sia esattamente zero
+        rb.linearVelocity = Vector2.zero;
     }
 
     /// <summary>
-    /// Inizializza l'effetto ombra è mettiamo il flag a true per dire che la palla e in movimento
+    /// Inizializza l'effetto ombra ï¿½ mettiamo il flag a true per dire che la palla e in movimento
     /// </summary>
     public void InitShadowEffect(Vector2 startPosition, Vector2 endPosition, Vector2 ballDirection)
     {

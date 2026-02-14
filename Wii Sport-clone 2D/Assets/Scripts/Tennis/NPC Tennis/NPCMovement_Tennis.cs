@@ -69,13 +69,13 @@ public class NPCMovement_Tennis : MonoBehaviour
     {
         if (FindFirstObjectByType<TennisBall>() == null)
         {
-            Debug.Log("Ancora non c'è nessuna pallina in campo");
+            Debug.Log("Ancora non c'ï¿½ nessuna pallina in campo");
         }
 
         // Ottenimento del componente Rigidbody2D
         rb = GetComponent<Rigidbody2D>();
 
-        // Verifica se il componente Rigidbody2D è stato ottenuto correttamente
+        // Verifica se il componente Rigidbody2D ï¿½ stato ottenuto correttamente
         if (!TryGetComponent(out rb))
         {
             Debug.LogWarning("Il componente Rigidbody2D non riesco a prenderlo");
@@ -84,7 +84,7 @@ public class NPCMovement_Tennis : MonoBehaviour
         // Ottenimento del componente Animator
         animator = GetComponent<Animator>();
 
-        // Verifica se il componente Animator è stato ottenuto correttamente
+        // Verifica se il componente Animator ï¿½ stato ottenuto correttamente
         if (!TryGetComponent(out animator))
         {
             Debug.LogWarning("Il componente Animator non riesco a prenderlo");
@@ -138,7 +138,7 @@ public class NPCMovement_Tennis : MonoBehaviour
 
                 animator.SetFloat("Horizontal", npcMovement.x);
                 animator.SetFloat("Vertical", opponentPlayingField == FindFieldsManager_Tennis.bottomPlayingField ? -npcMovement.y : npcMovement.y);
-                animator.SetFloat("Speed", rb.velocity.sqrMagnitude);
+                animator.SetFloat("Speed", rb.linearVelocity.sqrMagnitude);
             }
             /*else
             {
@@ -181,7 +181,7 @@ public class NPCMovement_Tennis : MonoBehaviour
 
     private void NpcNotMoving()
     {
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
 
         animator.SetFloat("Horizontal", 0);
         animator.SetFloat("Vertical", opponentPlayingField == FindFieldsManager_Tennis.bottomPlayingField ? -1 : 1);

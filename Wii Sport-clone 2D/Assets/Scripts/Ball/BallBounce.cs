@@ -21,12 +21,12 @@ public class BallBounce : MonoBehaviour
 
     private void Update()
     {
-        lastVelocity = rb.velocity;
+        lastVelocity = rb.linearVelocity;
     }
 
     public void Bounce()
     {
-        gameObject.GetComponent<Rigidbody2D>().velocity /= 1.7f;
+        gameObject.GetComponent<Rigidbody2D>().linearVelocity /= 1.7f;
 
         if (RandomPoints.Count > 0)
         {
